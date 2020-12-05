@@ -60,7 +60,7 @@ public class AuthController {
 	@PostMapping()
 	public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (Boolean.TRUE.equals(userRepository.existsByUsername(signUpRequest.getUsername()))) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+			return ResponseEntity.badRequest().body(new MessageResponse("Username is already taken!"));
 		}
 		User user = new User(signUpRequest.getUsername(), encoder.encode(signUpRequest.getPassword()));
 		user.setHouse(authService.getHouse(signUpRequest.getHouse()));
@@ -110,7 +110,6 @@ public class AuthController {
 		if (optionalUser.isPresent()) {
 			User givenUser = optionalUser.get();
 			givenUser.setPassword(encoder.encode(passcode.getPassword()));
-			userRepository.delete(givenUser);
 			userRepository.save(givenUser);
 			return ResponseEntity.ok(new MessageResponse("User updated"));
 		} else {

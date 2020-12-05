@@ -1,5 +1,7 @@
 package com.froststudio3e.housemgmt.models;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,6 +21,7 @@ public class House {
 	@Id
 	private String id;
 	
+	@NotBlank
 	@Indexed(unique = true)
 	private String name;
 }
