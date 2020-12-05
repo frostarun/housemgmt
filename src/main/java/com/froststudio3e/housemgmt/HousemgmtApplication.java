@@ -18,7 +18,7 @@ import com.froststudio3e.housemgmt.repository.RoleRepository;
 @SpringBootApplication
 public class HousemgmtApplication {
 	
-	 private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	 private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private RoleRepository roleRepository;
@@ -42,9 +42,9 @@ public class HousemgmtApplication {
 				houseRepository.save(House.builder().name("earth").build());
 				houseRepository.save(House.builder().name("mars").build());
 			} catch (DuplicateKeyException e) {
-				LOGGER.info("Preload INFO : Already preloaded data available");
+				logger.info("Preload INFO : Already preloaded data available");
 			} catch (Exception e) {
-				LOGGER.error("Error in inserting Preload data");
+				logger.error("Error in inserting Preload data");
 			}
 		};
 	}
