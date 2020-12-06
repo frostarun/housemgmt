@@ -1,19 +1,17 @@
 package com.froststudio3e.housemgmt.payload.request;
 
-import java.time.ZonedDateTime;
-
 import com.froststudio3e.housemgmt.models.Bill;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RentRequest {
-
 	private String houseName;
-	private ZonedDateTime date;
 	private Bill bill;
-	private Boolean latest;
-
 }
