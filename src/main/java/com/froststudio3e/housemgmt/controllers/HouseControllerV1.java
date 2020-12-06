@@ -27,6 +27,7 @@ import com.froststudio3e.housemgmt.repository.HouseRepository;
 public class HouseControllerV1 {
 
 	private static final String HOUSE_NOT_FOUND = "House not found!";
+	
 	@Autowired
 	HouseRepository houseRepository;
 

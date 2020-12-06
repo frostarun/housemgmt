@@ -1,6 +1,6 @@
 package com.froststudio3e.housemgmt.models;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -18,7 +18,7 @@ public class Rent {
 	private String id;
 	@DBRef
 	private House house;
-	private ZonedDateTime date;
+	private LocalDateTime date;
 	private Bill bill;
 	private Boolean latest;
 
