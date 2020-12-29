@@ -2,6 +2,7 @@ package com.froststudio3e.housemgmt.service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.DigestException;
+import java.security.Key;
 import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.Base64;
@@ -38,6 +39,7 @@ public class AuthService {
 
 	private static final String ERROR_ROLE_IS_NOT_FOUND = "Error: Role is not found.";
 	private static final String SECRET = "1234567890";
+	private static final String ALGO = "AES";
 
 	@Autowired
 	RoleRepository roleRepository;
@@ -167,5 +169,18 @@ public class AuthService {
 			// Clean out temporary data
 			Arrays.fill(generatedData, (byte) 0);
 		}
+	}
+
+	public static String encrypt(String Data) throws Exception {
+		Key key = generateKey(SECRET);
+		Cipher c = Cipher.getInstance(ALGO);
+		c.init(Cipher.ENCRYPT_MODE, key);
+		byte[] encVal = c.doFinal(Data.getBytes());
+		return Base64.getEncoder().encodeToString(encVal);
+	}
+
+	private static Key generateKey(String secret) {
+		byte[] decoded = Base64.getDecoder().decode(secret.getBytes());
+		return new SecretKeySpec(decoded, ALGO);
 	}
 }

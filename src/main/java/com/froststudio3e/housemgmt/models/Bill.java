@@ -1,8 +1,6 @@
 package com.froststudio3e.housemgmt.models;
 
-import java.util.HashMap;
-
-import com.fasterxml.jackson.annotation.JsonAnySetter;
+import java.util.ArrayList;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,11 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Bill {
 
-	private HashMap<String, String> bills;
-
-	@JsonAnySetter
-	void setBills(String key, String value) {
-		bills.put(key, value);
-	}
+	private String total;
+	private ArrayList<BillUnit> bills;
 
 }

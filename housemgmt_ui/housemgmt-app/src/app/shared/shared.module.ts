@@ -35,7 +35,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
-import { FormsModule } from "@angular/forms";
+import { FormsModule,ReactiveFormsModule  } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
@@ -60,7 +60,10 @@ import { HttpClientModule } from "@angular/common/http";
     MatListModule,
     HttpClientModule,
     MatBottomSheetModule,
-    MatMenuModule
+    MatMenuModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatSelectModule
   ],
   exports: [
     MatButtonModule,
@@ -81,7 +84,10 @@ import { HttpClientModule } from "@angular/common/http";
     MatListModule,
     HttpClientModule,
     MatBottomSheetModule,
-    MatMenuModule
+    MatMenuModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatSelectModule
   ]
 })
 export class SharedModule {}

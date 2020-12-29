@@ -74,6 +74,9 @@ public class AuthController {
 		if (Boolean.TRUE.equals(userRepository.existsByUsername(signUpRequest.getUsername()))) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Username is already taken!"));
 		}
+		logger.debug("signUpRequest :" + signUpRequest);
+		signUpRequest.setPassword(AuthService.decrypt(signUpRequest.getPassword()));
+		logger.debug("signUpRequest :" + signUpRequest);
 		User user = new User(signUpRequest.getUsername(), encoder.encode(signUpRequest.getPassword()));
 		user.setHouse(authService.getHouse(signUpRequest.getHouse()));
 		user.setRoles(authService.getRoles(signUpRequest.getRoles()));
@@ -86,6 +89,7 @@ public class AuthController {
 	public ResponseEntity<MessageResponse> deleteUser(@PathVariable String username) {
 		Optional<User> user = userRepository.findByUsername(username);
 		if (user.isPresent()) {
+			logger.debug("Deleting user :" + user);
 			userRepository.delete(user.get());
 			return ResponseEntity.ok(new MessageResponse("User deleted successfully!"));
 		} else {

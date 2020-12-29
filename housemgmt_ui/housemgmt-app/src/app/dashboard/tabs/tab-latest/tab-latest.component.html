@@ -1,0 +1,32 @@
+<div class="dash">
+    <p>
+        <mat-card class="latest-card">
+            <mat-card-header>
+                <mat-card-title>Rent for {{rentMonthName}} , {{rentYear}}</mat-card-title>
+                <mat-card-subtitle>Generated on {{rentDay}}-{{rentMonth}}-{{rentYear}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p>
+                    <mat-list>
+                        <mat-chip-list color="primary">
+                        <mat-list-item *ngFor="let bill of rent?.bill?.bills">
+                                <mat-chip class="bill-item">{{bill.name}}&nbsp;<span *ngIf="bill.name === 'electricity'"> | unit : {{bill.unit}}</span>
+                                </mat-chip >
+                                <mat-chip >{{bill.amount}}
+                                </mat-chip>
+                                <mat-divider></mat-divider>
+                            </mat-list-item>
+                        </mat-chip-list>
+                        <br>
+                        <mat-list-item >
+                            <div class="bill-item">Grand Total</div>
+                            <mat-chip  class="bill-total">{{rentTotal}}</mat-chip>
+                        </mat-list-item>
+                    </mat-list>
+                </p>
+            </mat-card-content>
+            <mat-card-footer>
+            </mat-card-footer>
+        </mat-card>
+    </p>
+</div>

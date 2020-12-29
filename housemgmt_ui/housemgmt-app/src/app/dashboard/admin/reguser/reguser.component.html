@@ -1,0 +1,51 @@
+<div class="dash">
+    <p>
+        <mat-card class="login-card">
+            <mat-card-content>
+                <mat-form-field appearance="outline">
+                    <mat-label>Username</mat-label>
+                    <input matInput [(ngModel)]="userParam.username" required>
+                    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                    <mat-hint>username provided eg : "Mars"</mat-hint>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="userParam.password" required>
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-hint>Password provided</mat-hint>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>house</mat-label>
+                    <mat-select matSelect [(ngModel)]="userParam.house" name="food" required>
+                        <mat-option *ngFor="let house of houses" [value]="house.name">{{house.name}}</mat-option>
+                    </mat-select>
+                    <mat-hint>house provided eg : "mercury"</mat-hint>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Roles</mat-label>
+                    <mat-chip-list #chipList aria-label="Role Selection">
+                        <mat-chip *ngFor="let role of roles" [selectable]="selectable" [removable]="removable"
+                            (removed)="remove(role)">
+                            {{role}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input #roleInput [formControl]="roleCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                        <mat-option *ngFor="let role of filteredRoles | async" [value]="role">
+                            {{role}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button (click)="register()">REGISTER</button>
+                <button mat-raised-button (click)="deleteUser()" color="warn">DELETE USER</button>
+            </mat-card-actions>
+        </mat-card>
+    </p>
+</div>

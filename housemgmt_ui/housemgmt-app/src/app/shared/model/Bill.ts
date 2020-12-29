@@ -1,3 +1,6 @@
+import { BillDetail } from "./BillDetail";
+
 export interface Bill {
-    [bills: string]: string;
+    bills:BillDetail[];
+    total:string;
 }

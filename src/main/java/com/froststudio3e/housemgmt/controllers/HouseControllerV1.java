@@ -55,7 +55,7 @@ public class HouseControllerV1 {
 
 	@GetMapping
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> getUsers() {
+	public ResponseEntity<?> getAllHouses() {
 		List<House> houseList = houseRepository.findAll();
 		if (houseList.isEmpty()) {
 			return ResponseEntity.badRequest().body(new MessageResponse(HOUSE_NOT_FOUND));
@@ -66,7 +66,7 @@ public class HouseControllerV1 {
 
 	@GetMapping("/{housename}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> getUser(@PathVariable String housename) {
+	public ResponseEntity<?> getHouseByName(@PathVariable String housename) {
 		Optional<House> house = houseRepository.findByName(housename);
 		if (house.isPresent()) {
 			return ResponseEntity.ok(house.get());
