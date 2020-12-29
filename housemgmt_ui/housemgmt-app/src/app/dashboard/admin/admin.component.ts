@@ -11,8 +11,8 @@ import { HolderService } from 'src/app/shared/holder/holder.service';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
-  username : any;
-
+  username: any;
+  roles: string[];
 
   constructor(
     public router: Router,
@@ -26,6 +26,12 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
     if (this.authService.isUserLoggedIn()) {
       this.username = localStorage.getItem(SessionStore.username);
+      this.roles = JSON.parse(localStorage.getItem(SessionStore.roles) || '{}');
+      if (this.roles.includes('ROLE_ADMIN')) {
+
+      } else {
+        this.router.navigate(["/dashboard"])
+      }
     } else {
       this.router.navigate(["/login"])
     }

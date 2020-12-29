@@ -13,21 +13,27 @@
                 <mat-icon class="bill-tab-icon">list_alt</mat-icon>
                 History
             </ng-template>
-            <app-history></app-history>
+            <ng-template matTabContent>
+                <app-history></app-history>
+            </ng-template>
         </mat-tab>
         <mat-tab>
             <ng-template mat-tab-label>
                 <mat-icon class="bill-tab-icon">home</mat-icon>
                 Houses
             </ng-template>
-            <app-house></app-house>
+            <ng-template matTabContent>
+                <app-house></app-house>
+            </ng-template>
         </mat-tab>
         <mat-tab>
             <ng-template mat-tab-label>
                 <mat-icon class="bill-tab-icon">supervisor_account</mat-icon>
                 User Registration
             </ng-template>
-            <app-reguser></app-reguser>
+            <ng-template matTabContent>
+                <app-reguser></app-reguser>
+            </ng-template>
         </mat-tab>
     </mat-tab-group>
 </div>

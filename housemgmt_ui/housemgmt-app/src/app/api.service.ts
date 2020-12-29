@@ -65,7 +65,7 @@ export class ApiService {
     return this.http
       .get<Rent>(this.apiURL + "/rent/" + house + "/latest", this.httpOptions)
       .pipe(
-        retry(1),
+        retry(0),
         catchError(this.handleError)
       );
   }
@@ -74,7 +74,7 @@ export class ApiService {
     return this.http
       .get<Rent[]>(this.apiURL + "/rent/" + house, this.httpOptions)
       .pipe(
-        retry(1),
+        retry(0),
         catchError(this.handleError)
       );
   }
@@ -83,7 +83,7 @@ export class ApiService {
     return this.http
       .post<Message>(this.apiURL + "/rent", JSON.stringify(rent), this.httpOptions)
       .pipe(
-        retry(1),
+        retry(0),
         catchError(this.handleError)
       );
   }
@@ -92,7 +92,7 @@ export class ApiService {
     return this.http
       .get<House[]>(this.apiURL + "/house", this.httpOptions)
       .pipe(
-        retry(1),
+        retry(0),
         catchError(this.handleError)
       );
   }
@@ -131,6 +131,9 @@ export class ApiService {
         localStorage.removeItem(SessionStore.house);
         localStorage.removeItem(SessionStore.userId);
         this.router.navigate(["/login"]);
+      }
+      if (err.status == 403 || err.status == 0) {
+        errorMessage = 'You dont have admin rights';
       }
     } else {
       errorMessage = `Error Occured : ${error.error.message}` + 'Please report to House owner';

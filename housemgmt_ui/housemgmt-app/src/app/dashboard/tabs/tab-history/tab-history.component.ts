@@ -48,9 +48,9 @@ export class TabHistoryComponent implements OnInit {
 
   getCardDesc(date :string){
     var rentDate = new Date(date);
-    var rentDay = rentDate.getDate().toString();
+    var rentDay = rentDate.getUTCDate().toString();
     var rentYear = rentDate.getUTCFullYear().toString();
-    var rentMonth = rentDate.getMonth().toString();
+    var rentMonth = DateutilService.getMonthNumber(rentDate);
     this.cardDesc =  rentDay+'-'+rentMonth+'-'+rentYear;
   }
 

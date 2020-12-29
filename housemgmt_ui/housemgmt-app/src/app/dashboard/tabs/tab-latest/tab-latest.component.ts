@@ -36,8 +36,8 @@ export class TabLatestComponent implements OnInit {
         this.rentDate = new Date(this.rent.date);
         this.rentMonthName = DateutilService.getMonthName(this.rentDate);
         this.rentYear = this.rentDate.getUTCFullYear().toString();
-        this.rentMonth = this.rentDate.getMonth().toString();
-        this.rentDay = this.rentDate.getDate().toString();
+        this.rentMonth = DateutilService.getMonthNumber(this.rentDate);
+        this.rentDay = this.rentDate.getUTCDate().toString();
         this.rentTotal = this.rent.bill.total; 
       });
     } else {

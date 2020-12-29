@@ -9,6 +9,9 @@ export class DateutilService {
     "July", "August", "September", "October", "November", "December"
   ];
 
+  static monthNumber = ["01", "02", "03", "04", "05", "06",
+    "07", "08", "09", "10", "11", "12"];
+
   static shortMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   ];
@@ -22,5 +25,11 @@ export class DateutilService {
   public static getShortMonthName(date: Date): string {
     return this.shortMonthNames[date.getMonth()];
   }
+
+  public static getMonthNumber(date: Date): string {
+    return this.monthNumber[date.getMonth()];
+  }
+
+  
 
 }
