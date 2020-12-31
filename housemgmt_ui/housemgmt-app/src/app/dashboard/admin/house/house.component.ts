@@ -34,23 +34,37 @@ export class HouseComponent implements OnInit {
     }
   }
 
-  createHouse(){
-    this.apiService.createHouse(this.house).subscribe((data:Message)=>{
+  createHouse() {
+    this.apiService.createHouse(this.house).subscribe((data: Message) => {
       window.alert(data.message);
       this.apiService.getHouseAll().subscribe((data: House[]) => {
         this.houses = data;
       });
-      window.location.reload();
+      this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/admin']);
+      });
     })
   }
 
-  deleteHouse(){
-    this.apiService.deleteHouse(this.house.name).subscribe((data:Message)=>{
+  deleteHouse() {
+    this.apiService.deleteHouse(this.house.name).subscribe((data: Message) => {
       window.alert(data.message);
       this.apiService.getHouseAll().subscribe((data: House[]) => {
         this.houses = data;
       });
-      window.location.reload();
+      this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/admin']);
+      });
+    })
+  }
+
+  deleteRentForHouse(housename: string) {
+    this.apiService.deleteRentAll(housename).subscribe((data: Message) => {
+      window.alert(data.message);
+      this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/admin']);
+      });
+      // window.location.reload();
     })
   }
 }

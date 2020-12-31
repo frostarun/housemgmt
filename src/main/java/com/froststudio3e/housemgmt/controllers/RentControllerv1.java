@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,6 +74,23 @@ public class RentControllerv1 {
 				return ResponseEntity.badRequest().body(new MessageResponse(RENT_NOT_FOUND));
 			} else {
 				return ResponseEntity.ok(rentList);
+			}
+		} else {
+			return ResponseEntity.badRequest().body(new MessageResponse(HOUSE_NOT_FOUND));
+		}
+	}
+	
+	@DeleteMapping("/{housename}")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<?> deleteAllByName(@PathVariable String housename) {
+		Optional<House> house = houseRepo.findByName(housename);
+		if (house.isPresent()) {
+			List<Rent> rentList = rentRepo.findByHouseIdOrderByDateDesc(house.get().getId());
+			if (rentList.isEmpty()) {
+				return ResponseEntity.badRequest().body(new MessageResponse(RENT_NOT_FOUND));
+			} else {
+				rentRepo.deleteAll(rentList);
+				return ResponseEntity.ok(new MessageResponse("Rent for house deleted successfully!"));
 			}
 		} else {
 			return ResponseEntity.badRequest().body(new MessageResponse(HOUSE_NOT_FOUND));

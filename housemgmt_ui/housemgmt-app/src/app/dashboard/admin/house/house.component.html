@@ -24,7 +24,8 @@
                 <p>
                     <mat-list>
                         <mat-list-item *ngFor="let house of houses">
-                            {{house.name}}
+                            <div class="bill-item">{{house.name}}</div>
+                            <button mat-stroked-button color="primary" (click)="deleteRentForHouse(house.name)">CLEAR RENT</button>
                             <mat-divider></mat-divider>
                         </mat-list-item>
                     </mat-list>

@@ -55,7 +55,10 @@ export class RentComponent implements OnInit {
     this.apiService.postRent(this.rentParam).subscribe((data:Message)=>{
       window.alert(data.message);
       this.router.navigate(["/admin"])
-      window.location.reload();
+      // window.location.reload();
+      this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/admin']);
+      });
     });
   }
 

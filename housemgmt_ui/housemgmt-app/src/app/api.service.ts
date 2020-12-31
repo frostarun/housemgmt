@@ -79,6 +79,15 @@ export class ApiService {
       );
   }
 
+  deleteRentAll(house: string) {
+    return this.http
+      .delete<Message>(this.apiURL + "/rent/" + house, this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
+  }
+
   postRent(rent :RentParam){
     return this.http
       .post<Message>(this.apiURL + "/rent", JSON.stringify(rent), this.httpOptions)

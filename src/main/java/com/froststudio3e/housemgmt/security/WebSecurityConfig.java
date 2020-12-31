@@ -13,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
 import com.froststudio3e.housemgmt.security.jwt.AuthEntryPointJwt;
 import com.froststudio3e.housemgmt.security.jwt.AuthTokenFilter;
@@ -60,7 +61,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests().antMatchers("/api/v1/user/**").permitAll()
 			.antMatchers("/api/test/**","/**").permitAll()
 			.anyRequest().authenticated();
-
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+		http
+        .headers()
+        .frameOptions().disable()
+        .addHeaderWriter(new StaticHeadersWriter("X-FRAME-OPTIONS",
+            "ALLOW-FROM rent.froststudio3e.in",
+            "ALLOW-FROM http://rent.froststudio3e.in/"));
 	}
 }
