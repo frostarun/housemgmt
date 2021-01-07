@@ -1,0 +1,35 @@
+<div class="dash">
+    <p>
+        <mat-accordion class="login-card">
+            <mat-expansion-panel *ngFor="let rent of history">
+                <mat-expansion-panel-header>
+                    <mat-panel-title [ngModel]="getCardTitle(rent.date)" ngDefaultControl>
+                        {{cardTitle}}
+                    </mat-panel-title>
+                    <mat-panel-description [ngModel]="getCardDesc(rent.date)" ngDefaultControl>
+                        {{cardDesc}}
+                        <mat-icon class="latest-icon" *ngIf="rent.latest == true">av_timer</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p>
+                    <mat-list>
+                        <mat-chip-list color="primary">
+                            <mat-list-item *ngFor="let bill of rent?.bill?.bills ">
+                                <mat-chip class="bill-item">{{bill.name}}&nbsp;<span *ngIf="bill.name === 'electricity'"> | unit : {{bill.unit}}</span>
+                                </mat-chip>
+                                <mat-chip>{{bill.amount}}
+                                </mat-chip>
+                                <mat-divider></mat-divider>
+                            </mat-list-item>
+                        </mat-chip-list>
+                        <br>
+                        <mat-list-item>
+                            <div class="bill-item">Grand Total</div>
+                            <mat-chip class="bill-total">{{rent.bill.total}}</mat-chip>
+                        </mat-list-item>
+                    </mat-list>
+                </p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </p>
+</div>

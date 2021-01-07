@@ -1,0 +1,42 @@
+<div class="dash">
+    <p>
+        <mat-card class="login-card">
+            <mat-card-content>
+                <mat-form-field appearance="outline">
+                    <mat-label>house</mat-label>
+                    <mat-select matSelect [(ngModel)]="rentParam.houseName" name="food">
+                        <mat-option *ngFor="let house of houses" [value]="house.name">{{house.name}}</mat-option>
+                    </mat-select>
+                    <mat-hint>house provided eg : "mercury"</mat-hint>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>RENT</mat-label>
+                    <input type="number" matInput [(ngModel)]="rent.amount" required>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>MAINTANENCE</mat-label>
+                    <input type="number" matInput [(ngModel)]="maintanence.amount" required>
+                </mat-form-field>
+                <table class="example-full-width" cellspacing="0">
+                    <tr>
+                        <td>
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>ELECTRICITY</mat-label>
+                                <input type="number" matInput [(ngModel)]="electricity.amount" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field class="example-half-width" appearance="outline">
+                                <mat-label>UNIT</mat-label>
+                                <input type="number" matInput [(ngModel)]="electricity.unit" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </table>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button (click)="addRent()">CREATE</button>
+            </mat-card-actions>
+        </mat-card>
+    </p>
+</div>

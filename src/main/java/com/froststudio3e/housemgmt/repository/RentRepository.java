@@ -13,6 +13,8 @@ public interface RentRepository extends MongoRepository<Rent, String> {
 
 	Optional<Rent> findByLatestIsTrueAndHouseId(String id);
 
+	List<Rent> findByHouseIdOrderByDateDesc(String id);
+	
 	List<Rent> findByHouseId(String id);
 
 	List<Rent> findByLatestIsTrue();

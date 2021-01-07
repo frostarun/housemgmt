@@ -1,0 +1,21 @@
+<div class="dash">
+    <p>
+        <mat-accordion class="login-card">
+            <mat-expansion-panel *ngFor="let allHouse of houses" class="login-card">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{allHouse.name}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Expand for {{allHouse.name}} Rent
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p>
+                    <ng-template matExpansionPanelContent>
+                        <app-tab-history [houseName]='allHouse.name'></app-tab-history>
+                    </ng-template>
+                </p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </p>
+</div>

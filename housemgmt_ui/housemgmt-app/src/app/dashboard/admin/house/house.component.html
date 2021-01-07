@@ -1,0 +1,36 @@
+<div class="dash">
+    <p>
+        <mat-card class="login-card">
+            <mat-card-content>
+                <mat-form-field appearance="outline">
+                    <mat-label>House Name</mat-label>
+                    <input matInput [(ngModel)]="house.name" required>
+                    <mat-icon matSuffix>house</mat-icon>
+                    <mat-hint>name for the new house</mat-hint>
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button (click)="createHouse()">CREATE</button>
+                <button mat-raised-button (click)="deleteHouse()">DELETE</button>
+            </mat-card-actions>
+        </mat-card>
+        <mat-card class="login-card">
+            <mat-card-header>
+                <mat-card-title>
+                    Houses
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>
+                    <mat-list>
+                        <mat-list-item *ngFor="let house of houses">
+                            <div class="bill-item">{{house.name}}</div>
+                            <button mat-stroked-button color="primary" (click)="deleteRentForHouse(house.name)">CLEAR RENT</button>
+                            <mat-divider></mat-divider>
+                        </mat-list-item>
+                    </mat-list>
+                </p>
+            </mat-card-content>
+        </mat-card>
+    </p>
+</div>

@@ -5,11 +5,14 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +39,7 @@ import com.froststudio3e.housemgmt.service.AuthService;
 public class AuthController {
 
 	private static final String USER_NOT_FOUND = "User not found";
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -53,8 +57,16 @@ public class AuthController {
 	JwtUtils jwtUtils;
 
 	@PostMapping("/auth")
-	public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		return ResponseEntity.ok(authService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword()));
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		logger.debug("loginRequest :" + loginRequest);
+		loginRequest.setPassword(AuthService.decrypt(loginRequest.getPassword()));
+		logger.debug("loginRequest :" + loginRequest);
+		JwtResponse authenticateUser = authService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
+		if (ObjectUtils.isEmpty(authenticateUser.getError())) {
+			return ResponseEntity.ok(authService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword()));
+		} else {
+			return ResponseEntity.badRequest().body(new MessageResponse(authenticateUser.getError()));
+		}
 	}
 
 	@PostMapping()
@@ -62,6 +74,9 @@ public class AuthController {
 		if (Boolean.TRUE.equals(userRepository.existsByUsername(signUpRequest.getUsername()))) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Username is already taken!"));
 		}
+		logger.debug("signUpRequest :" + signUpRequest);
+		signUpRequest.setPassword(AuthService.decrypt(signUpRequest.getPassword()));
+		logger.debug("signUpRequest :" + signUpRequest);
 		User user = new User(signUpRequest.getUsername(), encoder.encode(signUpRequest.getPassword()));
 		user.setHouse(authService.getHouse(signUpRequest.getHouse()));
 		user.setRoles(authService.getRoles(signUpRequest.getRoles()));
@@ -74,6 +89,7 @@ public class AuthController {
 	public ResponseEntity<MessageResponse> deleteUser(@PathVariable String username) {
 		Optional<User> user = userRepository.findByUsername(username);
 		if (user.isPresent()) {
+			logger.debug("Deleting user :" + user);
 			userRepository.delete(user.get());
 			return ResponseEntity.ok(new MessageResponse("User deleted successfully!"));
 		} else {

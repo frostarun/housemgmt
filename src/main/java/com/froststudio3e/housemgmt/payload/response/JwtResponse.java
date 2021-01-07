@@ -11,6 +11,7 @@ public class JwtResponse {
 	private String username;
 	private House house;
 	private List<String> roles;
+	private String error;
 
 	public JwtResponse(String accessToken, String id, String username, House house, List<String> roles) {
 		this.token = accessToken;
@@ -18,6 +19,18 @@ public class JwtResponse {
 		this.username = username;
 		this.house = house;
 		this.roles = roles;
+	}
+	
+	public JwtResponse(String error) {
+		this.error = error;
+	}
+
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
 	}
 
 	public String getAccessToken() {

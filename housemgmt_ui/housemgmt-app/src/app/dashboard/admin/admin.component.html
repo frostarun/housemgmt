@@ -1,0 +1,39 @@
+<app-admintoolbar></app-admintoolbar>
+<div class="dash">
+    <mat-tab-group mat-align-tabs="center">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="bill-tab-icon">attach_money</mat-icon>
+                Rent
+            </ng-template>
+            <app-rent></app-rent>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="bill-tab-icon">list_alt</mat-icon>
+                History
+            </ng-template>
+            <ng-template matTabContent>
+                <app-history></app-history>
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="bill-tab-icon">home</mat-icon>
+                Houses
+            </ng-template>
+            <ng-template matTabContent>
+                <app-house></app-house>
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="bill-tab-icon">supervisor_account</mat-icon>
+                User Registration
+            </ng-template>
+            <ng-template matTabContent>
+                <app-reguser></app-reguser>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+</div>

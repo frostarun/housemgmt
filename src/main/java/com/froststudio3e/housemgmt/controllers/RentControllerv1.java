@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,12 +19,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.froststudio3e.housemgmt.models.Bill;
 import com.froststudio3e.housemgmt.models.House;
 import com.froststudio3e.housemgmt.models.Rent;
 import com.froststudio3e.housemgmt.payload.request.RentRequest;
 import com.froststudio3e.housemgmt.payload.response.MessageResponse;
 import com.froststudio3e.housemgmt.repository.HouseRepository;
 import com.froststudio3e.housemgmt.repository.RentRepository;
+import com.froststudio3e.housemgmt.service.BillingService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -66,11 +69,28 @@ public class RentControllerv1 {
 	public ResponseEntity<?> findAllByName(@PathVariable String housename) {
 		Optional<House> house = houseRepo.findByName(housename);
 		if (house.isPresent()) {
-			List<Rent> rentList = rentRepo.findByHouseId(house.get().getId());
+			List<Rent> rentList = rentRepo.findByHouseIdOrderByDateDesc(house.get().getId());
 			if (rentList.isEmpty()) {
 				return ResponseEntity.badRequest().body(new MessageResponse(RENT_NOT_FOUND));
 			} else {
 				return ResponseEntity.ok(rentList);
+			}
+		} else {
+			return ResponseEntity.badRequest().body(new MessageResponse(HOUSE_NOT_FOUND));
+		}
+	}
+	
+	@DeleteMapping("/{housename}")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<?> deleteAllByName(@PathVariable String housename) {
+		Optional<House> house = houseRepo.findByName(housename);
+		if (house.isPresent()) {
+			List<Rent> rentList = rentRepo.findByHouseIdOrderByDateDesc(house.get().getId());
+			if (rentList.isEmpty()) {
+				return ResponseEntity.badRequest().body(new MessageResponse(RENT_NOT_FOUND));
+			} else {
+				rentRepo.deleteAll(rentList);
+				return ResponseEntity.ok(new MessageResponse("Rent for house deleted successfully!"));
 			}
 		} else {
 			return ResponseEntity.badRequest().body(new MessageResponse(HOUSE_NOT_FOUND));
@@ -90,7 +110,12 @@ public class RentControllerv1 {
 				rentList.add(oldRent);
 			}
 			LocalDateTime now = LocalDateTime.now();
-			Rent rent = Rent.builder().latest(true).bill(rentReq.getBill()).house(house.get()).date(now).build();
+			Rent rent = Rent.builder().latest(true)
+					.bill(Bill.builder()
+							.bills(rentReq.getBill().getBills())
+							.total(BillingService.calculateTotal(rentReq.getBill().getBills())).build())
+					.house(house.get())
+					.date(now).build();
 			rentList.add(rent);
 			rentRepo.saveAll(rentList);
 			return ResponseEntity.ok(new MessageResponse("Rent Added successfully!"));
